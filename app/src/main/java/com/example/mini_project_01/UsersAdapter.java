@@ -1,13 +1,17 @@
 package com.example.mini_project_01;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +20,8 @@ import androidx.appcompat.app.AlertDialog;
 import java.util.ArrayList;
 
 public class UsersAdapter extends BaseAdapter {
+    final int DOUBLE_CLICK_TIMEOUT = 250;
+
     Context context;
     LayoutInflater inflater;
     ArrayList<User> users;
@@ -48,6 +54,7 @@ public class UsersAdapter extends BaseAdapter {
 
         TextView tvUsersItmFullName = convertView.findViewById(R.id.tvUsersItmFullName);
         TextView tvUsersItmCity = convertView.findViewById(R.id.tvUsersItmCity);
+        ImageView ivUserItmChecked = convertView.findViewById(R.id.ivUserItmChecked);
 
         tvUsersItmFullName.setText(user.fullName());
         tvUsersItmCity.setText(user.getCity());
@@ -65,7 +72,28 @@ public class UsersAdapter extends BaseAdapter {
             }
         });
 
+        convertView.setOnTouchListener(new View.OnTouchListener() {
+            long lastClickTime = 0;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        Toast.makeText(context, "down", Toast.LENGTH_SHORT).show();
+//                        break;
+                    case MotionEvent.ACTION_UP:
+                        long clickTime = System.currentTimeMillis();
 
+                        if ((clickTime - lastClickTime) <= DOUBLE_CLICK_TIMEOUT)
+                            ivUserItmChecked.setVisibility(ivUserItmChecked.getVisibility() == View.INVISIBLE ? View.VISIBLE : View.INVISIBLE);
+                        else
+                            lastClickTime = clickTime;
+
+                        break;
+                }
+
+                return true;
+            }
+        });
 
         return convertView;
     }
