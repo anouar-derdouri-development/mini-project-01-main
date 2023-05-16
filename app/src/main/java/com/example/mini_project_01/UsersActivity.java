@@ -49,8 +49,8 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private ArrayList<String> getUsers() {
-        ArrayList<String> usersFullNames = new ArrayList<>();
+    private ArrayList<User> getUsers() {
+        ArrayList<User> usersFullNames = new ArrayList<>();
 
         try {
             InputStream inputStream = getAssets().open("users.json");
@@ -73,7 +73,11 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
                 JSONObject user = jsonArray.getJSONObject(i);
                 JSONObject userName = user.getJSONObject("name");
 
-                usersFullNames.add(String.format("%s %s\n", userName.get("first"), userName.get("last")));
+                usersFullNames.add(new User(
+                        userName.getString("first"),
+                        userName.getString("last"),
+                        user.getString("gender"),
+                        user.getString("city")));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
