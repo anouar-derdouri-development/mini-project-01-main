@@ -1,14 +1,18 @@
 package com.example.mini_project_01;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.gesture.Gesture;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,9 +23,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 public class UsersActivity extends AppCompatActivity implements View.OnClickListener {
-    Button btnUsersActLoadUsers, btnUsersActQuit;
+    Button btnUsersActLoadUsers;
     ListView lvUsersActUsers;
+    TextView tvUsersActQuit;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,12 +36,28 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
         Log.e("TAG", Long.toString(System.currentTimeMillis()));
 
         btnUsersActLoadUsers = findViewById(R.id.btnUsersActLoadUsers);
-        btnUsersActQuit = findViewById(R.id.btnUsersActQuit);
+        tvUsersActQuit = findViewById(R.id.tvUsersActQuit);
         lvUsersActUsers = findViewById(R.id.lvUsersActUsers);
 
         btnUsersActLoadUsers.setOnClickListener(this);
-        btnUsersActQuit.setOnClickListener(this);
+        tvUsersActQuit.setOnClickListener(this);
 
+        GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
+                if (e1.getX() - e2.getX() >= 100)
+                    finish();
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
+
+        tvUsersActQuit.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                gestureDetector.onTouchEvent(event);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -44,8 +66,6 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
             UsersAdapter adapter = new UsersAdapter(this, getUsers());
 
             lvUsersActUsers.setAdapter(adapter);
-        } else if (v.getId() == R.id.btnUsersActQuit) {
-            finish();
         }
     }
 
