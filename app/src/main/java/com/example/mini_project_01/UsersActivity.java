@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,20 +43,15 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
         btnUsersActLoadUsers.setOnClickListener(this);
         tvUsersActQuit.setOnClickListener(this);
 
-        GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+        tvUsersActQuit.setOnTouchListener(new OnSwipeTouchListener(this) {
             @Override
-            public boolean onFling(@NonNull MotionEvent e1, @NonNull MotionEvent e2, float velocityX, float velocityY) {
-                if (e1.getX() - e2.getX() >= 100)
-                    finish();
-                return super.onFling(e1, e2, velocityX, velocityY);
+            public void swipeLeft() {
+                finish();
             }
-        });
 
-        tvUsersActQuit.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
-                return false;
+            public void swipeRight() {
+                Toast.makeText(UsersActivity.this, "This action is not yet implemented, if you want to quit the app. please swipe left !!!", Toast.LENGTH_SHORT).show();
             }
         });
     }
