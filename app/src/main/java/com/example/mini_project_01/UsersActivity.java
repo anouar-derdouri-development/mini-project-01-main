@@ -34,8 +34,6 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
 
-        Log.e("TAG", Long.toString(System.currentTimeMillis()));
-
         btnUsersActLoadUsers = findViewById(R.id.btnUsersActLoadUsers);
         tvUsersActQuit = findViewById(R.id.tvUsersActQuit);
         lvUsersActUsers = findViewById(R.id.lvUsersActUsers);
@@ -47,11 +45,6 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void swipeLeft() {
                 finish();
-            }
-
-            @Override
-            public void swipeRight() {
-                Toast.makeText(UsersActivity.this, "This action is not yet implemented, if you want to quit the app. please swipe left !!!", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -7,7 +7,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-public abstract class OnSwipeTouchListener implements View.OnTouchListener {
+public class OnSwipeTouchListener implements View.OnTouchListener {
     private static final float THRESHOLD = 100;
     private Context context;
     private GestureDetector gestureDetector;
@@ -29,8 +29,13 @@ public abstract class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
 
-    public abstract void swipeLeft();
-    public abstract void swipeRight();
+    public void swipeLeft() {
+
+    }
+
+    public void swipeRight() {
+
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
