@@ -1,5 +1,6 @@
 package com.example.mini_project_01;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 
@@ -25,11 +27,13 @@ public class UsersAdapter extends BaseAdapter {
     Context context;
     LayoutInflater inflater;
     ArrayList<User> users;
+    FragmentManager fragmentManager;
 
-    public UsersAdapter(Context context, ArrayList<User> users) {
+    public UsersAdapter(Context context, ArrayList<User> users, FragmentManager fragmentManager) {
         this.users = users;
         this.context = context;
         inflater = LayoutInflater.from(context);
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -55,6 +59,7 @@ public class UsersAdapter extends BaseAdapter {
         TextView tvUsersItmFullName = convertView.findViewById(R.id.tvUsersItmFullName);
         TextView tvUsersItmCity = convertView.findViewById(R.id.tvUsersItmCity);
         ImageView ivUserItmChecked = convertView.findViewById(R.id.ivUserItmChecked);
+        Button btnUserItmDetails = convertView.findViewById(R.id.btnUserItmDetails);
 
         tvUsersItmFullName.setText(user.fullName());
         tvUsersItmCity.setText(user.getCity());
@@ -74,6 +79,7 @@ public class UsersAdapter extends BaseAdapter {
 
         convertView.setOnTouchListener(new View.OnTouchListener() {
             long lastClickTime = 0;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -93,6 +99,11 @@ public class UsersAdapter extends BaseAdapter {
 
                 return true;
             }
+        });
+
+        btnUserItmDetails.setOnClickListener(v -> {
+            UserDetailsDialog userDetailsDialog = new UserDetailsDialog(user);
+            userDetailsDialog.show(fragmentManager, null);
         });
 
         return convertView;

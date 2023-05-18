@@ -52,8 +52,7 @@ public class UsersActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnUsersActLoadUsers) {
-            UsersAdapter adapter = new UsersAdapter(this, getUsers());
-
+            UsersAdapter adapter = new UsersAdapter(this, getUsers(), getSupportFragmentManager());
             lvUsersActUsers.setAdapter(adapter);
         }
     }
